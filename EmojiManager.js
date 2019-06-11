@@ -99,7 +99,7 @@ client.on('emojiCreate', async newEmoji => {
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
   return emojiList({ animated: newEmoji.animated, message });
-})
+});
 
 client.on('error', console.error);
 
