@@ -25,6 +25,12 @@ const reloadData = () => {
 const clear = async input => {
   if (input && input.constructor.name === 'Promise') input = await input;
   if (typeof evaled !== 'string') input = require('util').inspect(input, { depth: 1 });
+
+  const output = input
+    .replace(/`/g, `\`${String.fromCharCode(8203)}`)
+    .replace(/@/g, `@${String.fromCharCode(8203)}`)
+    .replace(client.token, '👌');
+  return output;
 };
 
 client.on('ready', () => console.log(`Me be ${client.user.tag}`));
