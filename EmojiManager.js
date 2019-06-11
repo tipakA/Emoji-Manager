@@ -1,4 +1,4 @@
-/* eslint-disable global-require, no-empty-function */
+/* eslint-disable global-require, no-empty-function, no-param-reassign */
 const exec = require('util').promisify(require('child_process').exec);
 const { Client } = require('discord.js');
 const client = new Client();
@@ -20,6 +20,11 @@ const reloadData = () => {
     return err;
   }
   return false;
+};
+
+const clear = async input => {
+  if (input && input.constructor.name === 'Promise') input = await input;
+  if (typeof evaled !== 'string') input = require('util').inspect(input, { depth: 1 });
 };
 
 client.on('ready', () => console.log(`Me be ${client.user.tag}`));
@@ -48,6 +53,15 @@ client.on('message', async message => {
         message.react('❌');
         message.channel.send(`ERROR\n${reload}`);
       } catch (err) { console.error(err); }
+    }
+  } else if (cmd === 'eval') {
+    const code = args.join(' ');
+    try {
+      const evaled = eval(code);
+      const clean = await clear(evaled);
+      message.channel.send(`\`\`\`js\n${clean}\n\`\`\``, { split: true });
+    } catch (err) {
+      message.channel.send(`\`ERROR\` \`\`\`xl\n${await client.clean(client, err)}\n\`\`\``, { split: true });
     }
   }
 });
