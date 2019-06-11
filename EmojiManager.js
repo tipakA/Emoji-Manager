@@ -53,6 +53,49 @@ const updateStats = async input => {
   await message.edit('', { embed: statEmbed });
 };
 
+const makeEmbed = input => {
+  const colors = {
+    create: 'GREEN',
+    delete: 'RED',
+    update: 'YELLOW',
+  };
+  const embed = new MessageEmbed()
+    .setColor(colors[input.type])
+    .setTimestamp()
+    .setAuthor(input.text);
+
+  if (input.updated) {
+    embed.addField('Emoji\'s name before update', input.e.name, true)
+      .addField('Emoji after update', input.updated.toString(), true);
+  } else if (input.deleted) {
+    embed.addField('Removed emoji\'s name', input.e.name);
+  } else {
+    embed.addField('Emoji added', input.e.toString());
+  }
+  return embed;
+};
+
+const updateLatest = async input => { // { changed: { newEmoji, oldEmoji }, emoji, message, type: 'update' }
+  const message = await input.message.channel.messages.fetch(input.emoji.latest);
+  let text;
+  let e;
+  let updated = false;
+  let deleted = false;
+  if (input.type === 'update') {
+    text = 'Emoji\'s name has changed';
+    e = input.changed.oldEmoji;
+    updated = input.changed.newEmoji;
+  } else if (input.type === 'create') {
+    text = 'Emoji has been added';
+    e = input.changed.newEmoji;
+  } else if (input.type === 'delete') {
+    text = 'Emoji has beed deleted';
+    e = input.changed.oldEmoji;
+    deleted = true;
+  } else return console.error('Invalid type in updateLatest');
+  await message.edit('', { embed: makeEmbed({ deleted, e, text, type: input.type, updated }) });
+};
+
 client.on('ready', () => console.log(`Me be ${client.user.tag}`));
 
 client.on('message', async message => {
@@ -100,6 +143,7 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
+  await updateLatest({ changed: { newEmoji, oldEmoji }, emoji, message, type: 'update' });
   return emojiList({ animated: newEmoji.animated, message });
 });
 
@@ -112,6 +156,7 @@ client.on('emojiCreate', async newEmoji => {
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
   await updateStats({ emoji, message });
+  await updateLatest({ changed: { newEmoji }, emoji, message, type: 'create' });
   return emojiList({ animated: newEmoji.animated, message });
 });
 
@@ -124,6 +169,7 @@ client.on('emojiDelete', async oldEmoji => {
   const message = await oldEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
   await updateStats({ emoji, message });
+  await updateLatest({ changed: { oldEmoji }, emoji, message, type: 'delete' });
   return emojiList({ animated: oldEmoji.animated, message });
 });
 
