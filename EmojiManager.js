@@ -8,7 +8,7 @@ client.on('ready', () => console.log(`Me be ${client.user.tag}`));
 client.on('message', async message => {
   if (message.author.bot) return;
   if (!message.content.toLowerCase().startsWith(prefix)) return;
-  const args = message.content.split(/ +/g);
+  const args = message.content.slice(prefix.length).split(/ +/g);
   const cmd = args.shift().toLowerCase();
 
   if (cmd === 'ping') {
