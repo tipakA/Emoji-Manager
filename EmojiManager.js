@@ -65,8 +65,8 @@ const makeEmbed = input => {
     .setAuthor(input.text);
 
   if (input.updated) {
-    embed.addField('Emoji\'s name before update', input.e.name, true)
-      .addField('Emoji after update', input.updated.toString(), true);
+    embed.addField('Emoji\'s name before update', input.e.name)
+      .addField('Emoji after update', input.updated.toString());
   } else if (input.deleted) {
     embed.addField('Removed emoji\'s name', input.e.name);
   } else {
