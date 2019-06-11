@@ -45,12 +45,12 @@ const updateStats = async input => {
   const animatedCount = emojis.filter(e => e.animated).size;
   const notAnimatedCount = emojis.filter(e => !e.animated).size;
   const message = await input.message.channel.messages.fetch(input.emoji.stats);
-  const statEmbed = new MessageEmbed()
+  const embed = new MessageEmbed()
     .setColor('RANDOM')
     .setAuthor('Emote slots left')
     .addField('Animated', `\`${50 - animatedCount}\`/\`50\``, true)
     .addField('Not Animated', `\`${50 - notAnimatedCount}\`/\`50\``, true);
-  await message.edit('', { embed: statEmbed });
+  await message.edit('', { embed });
 };
 
 const makeEmbed = input => {
