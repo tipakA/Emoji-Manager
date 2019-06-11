@@ -56,7 +56,7 @@ const updateStats = async input => {
 const makeEmbed = input => {
   const colors = {
     create: 'GREEN',
-    delete: 'RED',
+    delete: [ 255, 0, 0 ],
     update: 'YELLOW',
   };
   const embed = new MessageEmbed()
