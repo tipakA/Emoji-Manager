@@ -33,6 +33,13 @@ const clear = async input => {
   return output;
 };
 
+const emojiList = input => {
+  let output;
+  if (input.animated) output = input.guild.emojis.filter(e => e.animated);
+  else output = input.guild.emojis.filter(e => !e.animated);
+  return output.map(e => e.toString()).join(', ');
+};
+
 client.on('ready', () => console.log(`Me be ${client.user.tag}`));
 
 client.on('message', async message => {
@@ -70,6 +77,17 @@ client.on('message', async message => {
       message.channel.send(`\`ERROR\` \`\`\`xl\n${await client.clean(client, err)}\n\`\`\``, { split: true });
     }
   }
+});
+
+client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
+  const emoji = emojiData.get(newEmoji.guild.id);
+  if (!emoji) return;
+  let type;
+  if (emoji.animated) type = 'animated';
+  else type = 'notAnimated';
+  const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
+  if (!message) return console.error('Message does not exist');
+  message.edit(emojiList({ animated: newEmoji.animated, guild: newEmoji.guild }));
 });
 
 client.on('error', console.error);
