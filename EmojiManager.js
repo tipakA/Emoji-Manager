@@ -101,6 +101,17 @@ client.on('emojiCreate', async newEmoji => {
   return emojiList({ animated: newEmoji.animated, message });
 });
 
+client.on('emojiDelete', async oldEmoji => {
+  const emoji = emojiData.get(oldEmoji.guild.id);
+  if (!emoji) return;
+  let type;
+  if (emoji.animated) type = 'animated';
+  else type = 'notAnimated';
+  const message = await oldEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
+  if (!message) return console.error('Message does not exist');
+  return emojiList({ animated: oldEmoji.animated, message });
+});
+
 client.on('error', console.error);
 
 client.login(token).catch(err => console.log('Error on login:', err));
