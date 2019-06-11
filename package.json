@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tipakA/Emoji-Manager#readme",
   "dependencies": {
-    "discord.js": "github:discordjs/discord.js"
+    "discord.js": "github:discordjs/discord.js",
+    "dotenv": "^8.0.0"
   }
 }
