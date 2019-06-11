@@ -87,8 +87,19 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
-  emojiList({ animated: newEmoji.animated, message });
+  return emojiList({ animated: newEmoji.animated, message });
 });
+
+client.on('emojiCreate', async newEmoji => {
+  const emoji = emojiData.get(newEmoji.guild.id);
+  if (!emoji) return;
+  let type;
+  if (emoji.animated) type = 'animated';
+  else type = 'notAnimated';
+  const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
+  if (!message) return console.error('Message does not exist');
+  return emojiList({ animated: newEmoji.animated, message });
+})
 
 client.on('error', console.error);
 
