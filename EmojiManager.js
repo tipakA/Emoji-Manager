@@ -108,7 +108,7 @@ client.on('message', async message => {
     if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return;
     const d = Date.now();
     const tmp = await message.channel.send('...');
-    return tmp.edit(`\`${d - message.createdTimestamp}\` / \`${client.ws.ping}\``);
+    return tmp.edit(`\`${d - message.createdTimestamp}\` / \`${Math.ceil(client.ws.ping)}\``);
   } else if (cmd === 'reboot') {
     if (message.author.id !== owner) return;
     await exec('pm2 restart EmojiManager');
