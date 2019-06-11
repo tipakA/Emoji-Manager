@@ -35,9 +35,9 @@ const clear = async input => {
 
 const emojiList = input => {
   let output;
-  if (input.animated) output = input.guild.emojis.filter(e => e.animated);
-  else output = input.guild.emojis.filter(e => !e.animated);
-  return output.map(e => e.toString()).join(', ');
+  if (input.animated) output = input.message.guild.emojis.filter(e => e.animated);
+  else output = input.message.guild.emojis.filter(e => !e.animated);
+  input.message.edit(output.map(e => e.toString()).join(', '));
 };
 
 client.on('ready', () => console.log(`Me be ${client.user.tag}`));
@@ -87,7 +87,7 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
-  message.edit(emojiList({ animated: newEmoji.animated, guild: newEmoji.guild }));
+  emojiList({ animated: newEmoji.animated, message });
 });
 
 client.on('error', console.error);
