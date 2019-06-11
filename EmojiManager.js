@@ -124,6 +124,7 @@ client.on('message', async message => {
       } catch (err) { console.error(err); }
     }
   } else if (cmd === 'eval') {
+    if (message.author.id !== owner) return;
     const code = args.join(' ');
     try {
       const evaled = eval(code);
