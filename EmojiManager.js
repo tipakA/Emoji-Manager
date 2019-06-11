@@ -1,6 +1,6 @@
 /* eslint-disable global-require, no-empty-function, no-param-reassign */
 const exec = require('util').promisify(require('child_process').exec);
-const { Client } = require('discord.js');
+const { Client, MessageEmbed } = require('discord.js');
 const client = new Client();
 const { token, prefix, owner } = require('./config.js');
 let emojiData = require('./messageIDs.js');
@@ -38,6 +38,19 @@ const emojiList = input => {
   if (input.animated) output = input.message.guild.emojis.filter(e => e.animated);
   else output = input.message.guild.emojis.filter(e => !e.animated);
   input.message.edit(output.map(e => e.toString()).join(', '));
+};
+
+const updateStats = async input => {
+  const emojis = input.message.guild.emojis;
+  const animatedCount = emojis.filter(e => e.animated).size;
+  const notAnimatedCount = emojis.filter(e => !e.animated).size;
+  const message = await input.message.channel.messages.fetch(input.emoji.stats);
+  const statEmbed = new MessageEmbed()
+    .setColor('RANDOM')
+    .setAuthor('Emote slots left')
+    .addField('Animated', `\`${50 - animatedCount}\`/\`50\``, true)
+    .addField('Not Animated', `\`${50 - notAnimatedCount}\`/\`50\``, true);
+  await message.edit('', { embed: statEmbed });
 };
 
 client.on('ready', () => console.log(`Me be ${client.user.tag}`));
@@ -83,7 +96,7 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   const emoji = emojiData.get(newEmoji.guild.id);
   if (!emoji) return;
   let type;
-  if (emoji.animated) type = 'animated';
+  if (newEmoji.animated) type = 'animated';
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
@@ -94,10 +107,11 @@ client.on('emojiCreate', async newEmoji => {
   const emoji = emojiData.get(newEmoji.guild.id);
   if (!emoji) return;
   let type;
-  if (emoji.animated) type = 'animated';
+  if (newEmoji.animated) type = 'animated';
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
+  await updateStats({ emoji, message });
   return emojiList({ animated: newEmoji.animated, message });
 });
 
@@ -105,10 +119,11 @@ client.on('emojiDelete', async oldEmoji => {
   const emoji = emojiData.get(oldEmoji.guild.id);
   if (!emoji) return;
   let type;
-  if (emoji.animated) type = 'animated';
+  if (oldEmoji.animated) type = 'animated';
   else type = 'notAnimated';
   const message = await oldEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   if (!message) return console.error('Message does not exist');
+  await updateStats({ emoji, message });
   return emojiList({ animated: oldEmoji.animated, message });
 });
 
