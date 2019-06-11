@@ -55,7 +55,7 @@ const updateStats = async input => {
 
 const makeEmbed = input => {
   const colors = {
-    create: 'GREEN',
+    create: [ 0, 255, 0 ],
     delete: [ 255, 0, 0 ],
     update: 'YELLOW',
   };
