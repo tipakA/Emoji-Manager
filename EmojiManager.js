@@ -3,7 +3,7 @@ const exec = require('util').promisify(require('child_process').exec);
 const { Client } = require('discord.js');
 const client = new Client();
 const { token, prefix, owner } = require('./config.js');
-let data = require('./messageIDs.js');
+let emojiData = require('./messageIDs.js');
 
 const reloadData = () => {
   try {
@@ -15,7 +15,7 @@ const reloadData = () => {
         break;
       }
     }
-    data = require('./messageIDs.js');
+    emojiData = require('./messageIDs.js');
   } catch (err) {
     return err;
   }
