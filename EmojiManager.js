@@ -34,9 +34,9 @@ const clear = async input => {
 };
 
 const emojiList = input => {
-  let output;
-  if (input.animated) output = input.message.guild.emojis.filter(e => e.animated);
-  else output = input.message.guild.emojis.filter(e => !e.animated);
+  let output = input.message.guild.emojis;
+  if (input.animated) output = output.filter(e => e.animated);
+  else output = output.filter(e => !e.animated);
   input.message.edit(output.map(e => e.toString()).join(', '));
 };
 
