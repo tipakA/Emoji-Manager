@@ -75,7 +75,7 @@ const makeEmbed = input => {
   return embed;
 };
 
-const updateLatest = async input => { // { changed: { newEmoji, oldEmoji }, emoji, message, type: 'update' }
+const updateLatest = async input => {
   const message = await input.message.channel.messages.fetch(input.emoji.latest);
   let text;
   let e;
