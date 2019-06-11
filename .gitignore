@@ -1,3 +1,7 @@
+# Standard stuff
 node_modules/
 config.js
 .env
+
+# Specific stuff
+messageIDs.js
