@@ -3,6 +3,8 @@ const { Client } = require('discord.js');
 const client = new Client();
 const { token, prefix, owner } = require('./config.js');
 
+client.on('ready', () => console.log(`Me be ${client.user.tag}`));
+
 client.on('message', async message => {
   if (message.author.bot) return;
   if (!message.content.toLowerCase().startsWith(prefix)) return;
