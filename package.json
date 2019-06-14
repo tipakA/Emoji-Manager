@@ -1,6 +1,6 @@
 {
   "name": "emoji-manager",
-  "version": "1.7.3",
+  "version": "1.8.0",
   "description": "Tool for managing emojis on my Discord servers",
   "main": "EmojiManager.js",
   "scripts": {
