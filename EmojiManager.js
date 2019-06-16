@@ -152,7 +152,7 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   const mainListMessage = await client.mainListChannel.messages.fetch(mainList.get(newEmoji.guild.id)[type]);
-  if (!message) return console.error('Message does not exist');
+  if (!message || !mainListMessage) return console.error('Message on one of servers does not exist');
   await updateLatest({ changed: { newEmoji, oldEmoji }, emoji, message, type: 'update' });
   return emojiList({ animated: newEmoji.animated, mainListMessage, message });
 });
@@ -165,7 +165,7 @@ client.on('emojiCreate', async newEmoji => {
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   const mainListMessage = await client.mainListChannel.messages.fetch(mainList.get(newEmoji.guild.id)[type]);
-  if (!message) return console.error('Message does not exist');
+  if (!message || !mainListMessage) return console.error('Message on one of servers does not exist');
   await updateStats({ emoji, message });
   await updateLatest({ changed: { newEmoji }, emoji, message, type: 'create' });
   return emojiList({ animated: newEmoji.animated, mainListMessage, message });
@@ -179,7 +179,7 @@ client.on('emojiDelete', async oldEmoji => {
   else type = 'notAnimated';
   const message = await oldEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
   const mainListMessage = await client.mainListChannel.messages.fetch(mainList.get(oldEmoji.guild.id)[type]);
-  if (!message) return console.error('Message does not exist');
+  if (!message || !mainListMessage) return console.error('Message on one of servers does not exist');
   await updateStats({ emoji, message });
   await updateLatest({ changed: { oldEmoji }, emoji, message, type: 'delete' });
   return emojiList({ animated: oldEmoji.animated, mainListMessage, message });
