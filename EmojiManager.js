@@ -103,17 +103,7 @@ const updateLatest = async input => {
   await message.edit('', { embed: makeEmbed({ deleted, e, text, type: input.type, updated }) });
 };
 
-client.on('ready', () => {
-  console.log(`Me be ${client.user.tag}, lookin ovur emojees.`);
-  client.mainListChannel = client.channels.get('521760634627555367');
-});
-
-client.on('message', async message => {
-  if (message.author.bot) return;
-  if (!message.content.toLowerCase().startsWith(prefix)) return;
-  const args = message.content.slice(prefix.length).split(/ +/g);
-  const cmd = args.shift().toLowerCase();
-
+const command = async (cmd, message, args) => {
   if (cmd === 'ping') {
     if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return;
     const d = Date.now();
@@ -144,6 +134,19 @@ client.on('message', async message => {
       message.channel.send(`\`ERROR\` \`\`\`xl\n${await clear(client, err)}\n\`\`\``, { split: true });
     }
   }
+};
+
+client.on('ready', () => {
+  console.log(`Me be ${client.user.tag}, lookin ovur emojees.`);
+  client.mainListChannel = client.channels.get('521760634627555367');
+});
+
+client.on('message', async message => {
+  if (message.author.bot) return;
+  if (!message.content.toLowerCase().startsWith(prefix)) return;
+  const args = message.content.slice(prefix.length).split(/ +/g);
+  const cmd = args.shift().toLowerCase();
+  await command(cmd, message, args);
 });
 
 client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
