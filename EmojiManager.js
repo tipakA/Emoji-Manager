@@ -46,6 +46,7 @@ const emojiList = input => {
 };
 
 const updateStats = async input => {
+  if (!input.emoji.stats) return;
   const emojis = input.message.guild.emojis;
   const animatedCount = emojis.filter(e => e.animated).size;
   const notAnimatedCount = emojis.filter(e => !e.animated).size;
@@ -81,6 +82,7 @@ const makeEmbed = input => {
 };
 
 const updateLatest = async input => {
+  if (!input.emoji.latest) return;
   const message = await input.message.channel.messages.fetch(input.emoji.latest);
   let text;
   let e;
