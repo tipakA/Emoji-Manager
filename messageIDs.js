@@ -67,29 +67,41 @@ module.exports.guilds = new Collection([
   ],
 ]);
 
-module.exports.mainList = {
-  '493479164834480128': { // AC
-    animated: '',
-    notAnimated: '',
-  },
-  '493745970207522816': { // 1xd
-    animated: '',
-    notAnimated: '',
-  },
-  '503314727724646432': { // 2xd
-    animated: '',
-    notAnimated: '',
-  },
-  '503314903835213824': { // 3xd
-    animated: '',
-    notAnimated: '',
-  },
-  '512975804318089226': { // 4xd
-    animated: '',
-    notAnimated: '',
-  },
-  '523134778778845184': { // 5xd
-    animated: '',
-    notAnimated: '',
-  },
-};
+module.exports.mainList = new Collection([
+  [
+    '493479164834480128', { // AC
+      animated: '',
+      notAnimated: '',
+    },
+  ],
+  [
+    '493745970207522816', { // 1xd
+      animated: '',
+      notAnimated: '',
+    },
+  ],
+  [
+    '503314727724646432', { // 2xd
+      animated: '',
+      notAnimated: '',
+    },
+  ],
+  [
+    '503314903835213824', { // 3xd
+      animated: '',
+      notAnimated: '',
+    },
+  ],
+  [
+    '512975804318089226', { // 4xd
+      animated: '',
+      notAnimated: '',
+    },
+  ],
+  [
+    '523134778778845184', { // 5xd
+      animated: '',
+      notAnimated: '',
+    },
+  ],
+]);
