@@ -60,7 +60,7 @@ const makeEmbed = input => {
   const colors = {
     create: [ 0, 255, 0 ],
     delete: [ 255, 0, 0 ],
-    update: 'YELLOW',
+    update: [ 255, 255, 0 ],
   };
   const embed = new MessageEmbed()
     .setColor(colors[input.type])
