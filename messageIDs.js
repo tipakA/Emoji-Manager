@@ -13,6 +13,7 @@ module.exports = new Collection([
         latest: '587916042156769282',
       },
       listGuild: {
+        channel: listChannel,
         animated: undefined,
         notAnimated: undefined,
       },
