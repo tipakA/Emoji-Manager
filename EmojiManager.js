@@ -40,7 +40,9 @@ const emojiList = input => {
   let output = input.message.guild.emojis;
   if (input.animated) output = output.filter(e => e.animated);
   else output = output.filter(e => !e.animated);
-  input.message.edit(output.map(e => e.toString()).join(', '));
+  output = output.map(e => e.toString()).join(', ');
+  input.message.edit(output);
+  input.mainListMessage.edit(output);
 };
 
 const updateStats = async input => {
@@ -149,9 +151,10 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   if (newEmoji.animated) type = 'animated';
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
+  const mainListMessage = await client.mainListChannel.messages.fetch(mainList.get(newEmoji.guild.id)[type]);
   if (!message) return console.error('Message does not exist');
   await updateLatest({ changed: { newEmoji, oldEmoji }, emoji, message, type: 'update' });
-  return emojiList({ animated: newEmoji.animated, message });
+  return emojiList({ animated: newEmoji.animated, mainListMessage, message });
 });
 
 client.on('emojiCreate', async newEmoji => {
@@ -161,10 +164,11 @@ client.on('emojiCreate', async newEmoji => {
   if (newEmoji.animated) type = 'animated';
   else type = 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
+  const mainListMessage = await client.mainListChannel.messages.fetch(mainList.get(newEmoji.guild.id)[type]);
   if (!message) return console.error('Message does not exist');
   await updateStats({ emoji, message });
   await updateLatest({ changed: { newEmoji }, emoji, message, type: 'create' });
-  return emojiList({ animated: newEmoji.animated, message });
+  return emojiList({ animated: newEmoji.animated, mainListMessage, message });
 });
 
 client.on('emojiDelete', async oldEmoji => {
@@ -174,10 +178,11 @@ client.on('emojiDelete', async oldEmoji => {
   if (oldEmoji.animated) type = 'animated';
   else type = 'notAnimated';
   const message = await oldEmoji.guild.channels.get(emoji.channel).messages.fetch(emoji[type]);
+  const mainListMessage = await client.mainListChannel.messages.fetch(mainList.get(oldEmoji.guild.id)[type]);
   if (!message) return console.error('Message does not exist');
   await updateStats({ emoji, message });
   await updateLatest({ changed: { oldEmoji }, emoji, message, type: 'delete' });
-  return emojiList({ animated: oldEmoji.animated, message });
+  return emojiList({ animated: oldEmoji.animated, mainListMessage, message });
 });
 
 client.on('error', console.error);
