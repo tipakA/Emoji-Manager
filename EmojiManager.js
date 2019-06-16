@@ -146,6 +146,7 @@ client.on('message', async message => {
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
   if (newMessage.author.bot) return;
+  if (oldMessage.content === newMessage.content) return;
   if (!newMessage.content.toLowerCase().startsWith(prefix)) return;
   await command(newMessage);
 });

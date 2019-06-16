@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+- Small check to remove unnecessary `messageUpdate` event processing.
+
 ## 1.12.0
 
 - Removed no longer needed property added in version 1.9.0.
