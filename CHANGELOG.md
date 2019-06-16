@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.12.0
+
+- Removed no longer needed property added in version 1.9.0.
+- Added missing property for guild 'JoJ' in `messageIDs.js` file.
+
+## 1.11.0
+
+- Moved IDs of messages in main list channel to already existing collection.
+- Removed unnecessary second export from `messageIDs.js`.
+- Code adjustments that should reflect changes made in `messageIDs.js` file.
+
 ## 1.10.0
 
 - Moved command handling out of `message` event to separate function.
