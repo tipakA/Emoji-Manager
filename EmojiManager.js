@@ -99,7 +99,10 @@ const updateLatest = async input => {
   await message.edit('', { embed: makeEmbed({ deleted, e, text, type: input.type, updated }) });
 };
 
-client.on('ready', () => console.log(`Me be ${client.user.tag}`));
+client.on('ready', () => {
+  console.log(`Me be ${client.user.tag}, lookin ovur emojees.`);
+  client.mainGuild = client.guilds.get('334499698075238401');
+});
 
 client.on('message', async message => {
   if (message.author.bot) return;
