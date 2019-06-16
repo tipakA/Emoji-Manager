@@ -140,7 +140,7 @@ client.on('message', async message => {
 });
 
 client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
-  const emoji = emojiData.get(newEmoji.guild.id);
+  const emoji = emojiGuilds.get(newEmoji.guild.id);
   if (!emoji) return;
   let type;
   if (newEmoji.animated) type = 'animated';
@@ -152,7 +152,7 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
 });
 
 client.on('emojiCreate', async newEmoji => {
-  const emoji = emojiData.get(newEmoji.guild.id);
+  const emoji = emojiGuilds.get(newEmoji.guild.id);
   if (!emoji) return;
   let type;
   if (newEmoji.animated) type = 'animated';
@@ -165,7 +165,7 @@ client.on('emojiCreate', async newEmoji => {
 });
 
 client.on('emojiDelete', async oldEmoji => {
-  const emoji = emojiData.get(oldEmoji.guild.id);
+  const emoji = emojiGuilds.get(oldEmoji.guild.id);
   if (!emoji) return;
   let type;
   if (oldEmoji.animated) type = 'animated';
