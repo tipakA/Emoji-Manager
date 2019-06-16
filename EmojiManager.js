@@ -101,7 +101,7 @@ const updateLatest = async input => {
 
 client.on('ready', () => {
   console.log(`Me be ${client.user.tag}, lookin ovur emojees.`);
-  client.mainGuild = client.guilds.get('334499698075238401');
+  client.mainListChannel = client.channels.get('521760634627555367');
 });
 
 client.on('message', async message => {
