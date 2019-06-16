@@ -70,38 +70,38 @@ module.exports.guilds = new Collection([
 module.exports.mainList = new Collection([
   [
     '493479164834480128', { // AC
-      animated: '',
-      notAnimated: '',
+      animated: '589639875138158619',
+      notAnimated: '589639875859447810',
     },
   ],
   [
     '493745970207522816', { // 1xd
-      animated: '',
-      notAnimated: '',
+      animated: '589639894708649985',
+      notAnimated: '589639895824203776',
     },
   ],
   [
     '503314727724646432', { // 2xd
-      animated: '',
-      notAnimated: '',
+      animated: '589639928175132682',
+      notAnimated: '589639929017925648',
     },
   ],
   [
     '503314903835213824', { // 3xd
-      animated: '',
-      notAnimated: '',
+      animated: '589639960290656257',
+      notAnimated: '589639961243025408',
     },
   ],
   [
     '512975804318089226', { // 4xd
-      animated: '',
-      notAnimated: '',
+      animated: '589640016024829952',
+      notAnimated: '589640016846651414',
     },
   ],
   [
     '523134778778845184', { // 5xd
-      animated: '',
-      notAnimated: '',
+      animated: '589640085725642881',
+      notAnimated: '589640087000711209',
     },
   ],
 ]);
