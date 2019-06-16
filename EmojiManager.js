@@ -103,7 +103,10 @@ const updateLatest = async input => {
   await message.edit('', { embed: makeEmbed({ deleted, e, text, type: input.type, updated }) });
 };
 
-const command = async (cmd, message, args) => {
+const command = async (message) => {
+  const args = message.content.slice(prefix.length).split(/ +/g);
+  const cmd = args.shift().toLowerCase();
+
   if (cmd === 'ping') {
     if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return;
     const d = Date.now();
@@ -144,9 +147,13 @@ client.on('ready', () => {
 client.on('message', async message => {
   if (message.author.bot) return;
   if (!message.content.toLowerCase().startsWith(prefix)) return;
-  const args = message.content.slice(prefix.length).split(/ +/g);
-  const cmd = args.shift().toLowerCase();
-  await command(cmd, message, args);
+  await command(message);
+});
+
+client.on('messageUpdate', async (oldMessage, newMessage) => {
+  if (newMessage.author.bot) return;
+  if (!newMessage.content.toLowerCase().startsWith(prefix)) return;
+  await command(newMessage);
 });
 
 client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
