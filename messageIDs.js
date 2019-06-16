@@ -1,7 +1,7 @@
 /* eslint-disable no-inline-comments, sort-keys */
 const { Collection } = require('discord.js');
 
-module.exports.guilds = new Collection([
+module.exports.emojiGuilds = new Collection([
   [ // JoJ
     '334499698075238401', {
       channel: '521760634627555367',

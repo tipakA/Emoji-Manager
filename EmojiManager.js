@@ -4,7 +4,7 @@ const { Client, MessageEmbed } = require('discord.js');
 const client = new Client();
 const { token, prefix, owner } = require('./config.js');
 let emojiData = require('./messageIDs.js');
-let { guilds, mainList } = emojiData;
+let { emojiGuilds, mainList } = emojiData;
 
 const reloadData = () => {
   try {
@@ -17,7 +17,7 @@ const reloadData = () => {
       }
     }
     emojiData = require('./messageIDs.js');
-    guilds = emojiData.guilds;
+    emojiGuilds = emojiData.guilds;
     mainList = emojiData.mainList;
   } catch (err) {
     return err;
