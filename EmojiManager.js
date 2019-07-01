@@ -111,7 +111,7 @@ const command = async (message) => {
     return tmp.edit(`\`${d - message.createdTimestamp}\` / \`${Math.ceil(client.ws.ping)}\``);
   } else if (cmd === 'reboot') {
     if (message.author.id !== owner) return;
-    await exec('pm2 restart EmojiManager');
+    await exec('pm2 restart EmojiManager').catch(() => console.error('pm2 restart error'));
     return process.exit(0);
   } else if (cmd === 'reload') {
     if (message.author.id !== owner) return;
