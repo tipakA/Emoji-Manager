@@ -131,7 +131,7 @@ const command = async (message) => {
       const clean = await clear(evaled);
       message.channel.send(`\`\`\`js\n${clean}\n\`\`\``, { split: true });
     } catch (err) {
-      message.channel.send(`\`ERROR\` \`\`\`xl\n${await clear(client, err)}\n\`\`\``, { split: true });
+      message.channel.send(`\`ERROR\` \`\`\`xl\n${await clear(err)}\n\`\`\``, { split: true });
     }
   }
 };
