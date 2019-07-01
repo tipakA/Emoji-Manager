@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.2
+
+- Fix for `reboot` - now doesn't stop on error when there is no such process under pm2.
+- Fixed `eval`'s error displaying, should finally show error instead of whole client class.
+
 ## 1.12.1
 
 - Small check to remove unnecessary `messageUpdate` event processing.
