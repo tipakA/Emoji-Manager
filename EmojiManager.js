@@ -100,7 +100,7 @@ const updateLatest = async input => {
   await message.edit('', { embed: makeEmbed({ deleted, e, text, type: input.type, updated }) });
 };
 
-const command = async (message) => {
+const command = async message => {
   const args = message.content.slice(prefix.length).split(/ +/g);
   const cmd = args.shift().toLowerCase();
 
@@ -109,22 +109,21 @@ const command = async (message) => {
     const d = Date.now();
     const tmp = await message.channel.send('...');
     return tmp.edit(`\`${d - message.createdTimestamp}\` / \`${Math.ceil(client.ws.ping)}\``);
-  } else if (cmd === 'reboot') {
-    if (message.author.id !== owner) return;
+  }
+  if (message.author.id !== owner) return;
+  if (cmd === 'reboot') {
     await exec('pm2 restart EmojiManager').catch(() => console.error('pm2 restart error'));
     return process.exit(0);
   } else if (cmd === 'reload') {
-    if (message.author.id !== owner) return;
     const reload = await reloadData();
     if (!reload) return message.react('✅').catch(() => {});
     else {
       try {
-        message.react('❌');
-        message.channel.send(`ERROR\n${reload}`);
+        await message.react('❌');
+        await message.channel.send(`ERROR\n${reload}`);
       } catch (err) { console.error(err); }
     }
   } else if (cmd === 'eval') {
-    if (message.author.id !== owner) return;
     const code = args.join(' ');
     try {
       const evaled = eval(code);
@@ -136,7 +135,7 @@ const command = async (message) => {
   }
 };
 
-client.on('ready', () => console.log(`Me be ${client.user.tag}, lookin ovur emojees.`));
+client.on('ready', () => console.log(`Me be ${client.user.tag}, lookin ovur emojees. (${new Date()})`));
 
 client.on('message', async message => {
   if (message.author.bot) return;
@@ -154,9 +153,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
   const emoji = emojiData.get(newEmoji.guild.id);
   if (!emoji) return;
-  let type;
-  if (newEmoji.animated) type = 'animated';
-  else type = 'notAnimated';
+  const type = newEmoji.animated ? 'animated' : 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.emojiGuild.channel).messages.fetch(emoji.emojiGuild[type]);
   const mainListMessage = await client.channels.get(emoji.listGuild.channel).messages.fetch(emojiData.get(newEmoji.guild.id).listGuild[type]);
   if (!message || !mainListMessage) return console.error('Message on one of servers does not exist');
@@ -167,9 +164,7 @@ client.on('emojiUpdate', async (oldEmoji, newEmoji) => {
 client.on('emojiCreate', async newEmoji => {
   const emoji = emojiData.get(newEmoji.guild.id);
   if (!emoji) return;
-  let type;
-  if (newEmoji.animated) type = 'animated';
-  else type = 'notAnimated';
+  const type = newEmoji.animated ? 'animated' : 'notAnimated';
   const message = await newEmoji.guild.channels.get(emoji.emojiGuild.channel).messages.fetch(emoji.emojiGuild[type]);
   const mainListMessage = await client.channels.get(emoji.listGuild.channel).messages.fetch(emojiData.get(newEmoji.guild.id).listGuild[type]);
   if (!message || !mainListMessage) return console.error('Message on one of servers does not exist');
@@ -181,9 +176,7 @@ client.on('emojiCreate', async newEmoji => {
 client.on('emojiDelete', async oldEmoji => {
   const emoji = emojiData.get(oldEmoji.guild.id);
   if (!emoji) return;
-  let type;
-  if (oldEmoji.animated) type = 'animated';
-  else type = 'notAnimated';
+  const type = oldEmoji.animated ? 'animated' : 'notAnimated';
   const message = await oldEmoji.guild.channels.get(emoji.emojiGuild.channel).messages.fetch(emoji.emojiGuild[type]);
   const mainListMessage = await client.channels.get(emoji.listGuild.channel).messages.fetch(emojiData.get(oldEmoji.guild.id).listGuild[type]);
   if (!message || !mainListMessage) return console.error('Message on one of servers does not exist');
