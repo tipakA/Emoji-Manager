@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.0
+
+- Updated code for release of Discord.js v12 from 2 months ago.
+- Few minor tweaks.
+
 ## 1.12.2
 
 - Fix for `reboot` - now doesn't stop on error when there is no such process under pm2.
